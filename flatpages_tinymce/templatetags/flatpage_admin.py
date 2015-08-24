@@ -1,20 +1,23 @@
 import os
 import simplejson
 
-# Settings
-from django.conf import settings
-import tinymce.settings
-from flatpages_tinymce import settings as local_settings
-
 from django import template
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
+import tinymce.settings
+from flatpages_tinymce import settings as local_settings
+
+
 register = template.Library()
 
+
 def is_admin(context):
-    return 'user' in context and context['user'].has_perm('flatpages.change_flatpage') and local_settings.USE_FRONTED_TINYMCE
+    return 'user' in context and context['user'].has_perm(
+        'flatpages.change_flatpage') and local_settings.USE_FRONTED_TINYMCE
+
 
 @register.simple_tag(takes_context=True)
 def flatpage_media(context):
@@ -39,35 +42,41 @@ def flatpage_media(context):
         'js': [
             os.path.join(media_url, tinymce.settings.JS_URL),
             os.path.join(local_settings.MEDIA_URL, "edit%s.js" % postfix),
-            ],
+        ],
         'css': [
             os.path.join(local_settings.MEDIA_URL, 'edit%s.css' % postfix),
-            ],
-        }
+        ],
+    }
     if tinymce.settings.USE_FILEBROWSER:
         mce_config['file_browser_callback'] = "djangoFileBrowser"
         media['js'].append(reverse('tinymce-filebrowser'))
 
     output_chunks = []
     for script in media['js']:
-        output_chunks.append('<script type="text/javascript" src="%s" ></script>' % script)
+        output_chunks.append(
+            '<script type="text/javascript" src="%s" ></script>' % script)
 
     for stylesheet in media['css']:
-        output_chunks.append('<link rel="stylesheet" href="%s" type="text/css" media="screen" />' % stylesheet)
+        output_chunks.append(
+            ('<link rel="stylesheet" href="%s"'
+             ' type="text/css" media="screen" />') % stylesheet)
     params = {
         'tinymce_config': mce_config,
         'prefix': local_settings.DIV_PREFIX,
         'url': reverse('admin:flatpages_ajax_save'),
         'error_message': _(u'Error while saving. Please try again.'),
         'csrf_token': unicode(context['csrf_token']),
-        }
-    output_chunks.append('<script type="text/javascript">$_STATICPAGES_INIT(%s)</script>' % simplejson.dumps(params))
+    }
+    output_chunks.append(
+        ('<script type="text/javascript">'
+         '$_STATICPAGES_INIT(%s)</script>') % simplejson.dumps(params))
 
     context.render_context["flatpage_media_loaded"] = 1
     return mark_safe("\n".join(output_chunks))
 
 
-@register.inclusion_tag("flatpages_tinymce/_contentedit.htm", takes_context=True)
+@register.inclusion_tag("flatpages_tinymce/_contentedit.htm",
+                        takes_context=True)
 def flatpage_admin(context, flatpage):
     media = flatpage_media(context)
     output_content = mark_safe(flatpage.content)
@@ -77,4 +86,4 @@ def flatpage_admin(context, flatpage):
         'admin': is_admin(context),
         'prefix': local_settings.DIV_PREFIX,
         'content': output_content,
-        }
+    }
