@@ -129,6 +129,11 @@ Further, you will want to change default settings of TinyMCE Editor.
 Changes
 -------
 
+Changes in version 1.0.0
+========================
+
+  * Update for Django 1.8 compatibility
+
 
 Changes in version 0.1
 ======================

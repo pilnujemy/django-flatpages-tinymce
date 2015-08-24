@@ -1,13 +1,12 @@
 #!/usr/bin/env python
-import os,sys
 from setuptools import setup, find_packages
 
-version = "0.2.0"
+version = "1.0.0"
 
 long_description = open('README.rst').read()
 
 setup(name='django-flatpages-tinymce',
-      version=version,
+      version="1.0.0",
       description="HTML editor on django.contrib.flatpages",
       long_description=long_description,
       classifiers=[
