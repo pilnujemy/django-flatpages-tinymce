@@ -1,3 +1,10 @@
+---------
+This fork
+---------
+
+This is a Django 1.8 compatible fork of https://github.com/mjr27/django-flatpages-tinymce
+
+
 -----
 About
 -----
