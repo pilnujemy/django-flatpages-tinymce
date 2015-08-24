@@ -1,5 +1,5 @@
 import os
-import simplejson
+import json
 
 from django import template
 from django.conf import settings
@@ -69,7 +69,7 @@ def flatpage_media(context):
     }
     output_chunks.append(
         ('<script type="text/javascript">'
-         '$_STATICPAGES_INIT(%s)</script>') % simplejson.dumps(params))
+         '$_STATICPAGES_INIT(%s)</script>') % json.dumps(params))
 
     context.render_context["flatpage_media_loaded"] = 1
     return mark_safe("\n".join(output_chunks))
