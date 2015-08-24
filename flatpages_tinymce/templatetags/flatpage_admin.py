@@ -15,8 +15,9 @@ register = template.Library()
 
 
 def is_admin(context):
-    return 'user' in context and context['user'].has_perm(
-        'flatpages.change_flatpage') and local_settings.USE_FRONTED_TINYMCE
+    return ('user' in context
+            and context['user'].has_perm('flatpages.change_flatpage')
+            and local_settings.USE_FRONTED_TINYMCE0)
 
 
 @register.simple_tag(takes_context=True)
