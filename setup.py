@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 
-version = "1.0.0"
 
-long_description = open('README.rst').read()
+long_description = ""
+with open('README.rst') as fd:
+    long_description = fd.read()
 
 setup(name='django-flatpages-tinymce',
       version="1.0.0",
@@ -28,6 +29,6 @@ setup(name='django-flatpages-tinymce',
       license='MIT',
       packages=find_packages(),
       include_package_data=True,
-      requires = ['django_tinymce (>=1.5)', 'Django (>=1.3)'],
+      requires=['django_tinymce (>=1.5)', 'Django (>=1.3)'],
       entry_points={},
       zip_safe=False)
