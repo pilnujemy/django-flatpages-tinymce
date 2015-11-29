@@ -16,7 +16,7 @@ USE_MINIFIED = getattr(
 )
 TEMPLATE_DIR = getattr(
     settings, "FLATPAGES_TEMPLATE_DIR",
-    os.path.join(settings.TEMPLATE_DIRS[0], 'flatpages')
+    os.path.join((settings.TEMPLATES[0]['DIRS'] if hasattr(settings,'TEMPLATES') else settings.TEMPLATE_DIRS)[0], 'flatpages')
 )
 USE_ADMIN_AREA_TINYMCE = getattr(settings, "FLATPAGES_TINYMCE_ADMIN", True)
 USE_FRONTED_TINYMCE = getattr(settings, "FLATPAGES_TINYMCE_FRONTEND", True)
